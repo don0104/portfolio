@@ -65,14 +65,17 @@ function App() {
           'Accept': 'application/json'
         },
         mode: 'cors',
+        credentials: 'include',
         body: JSON.stringify(formData)
       });
       
       console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to send message');
+        console.error('Error response:', errorData);
+        throw new Error(errorData.error || errorData.details || 'Failed to send message');
       }
       
       const data = await response.json();
