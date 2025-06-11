@@ -58,28 +58,30 @@ function App() {
     try {
       console.log('Sending data to server:', formData);
 
-      const response = await fetch('http://localhost:3001/send-email', {
+      const response = await fetch('https://portfolio-backend-gz61.onrender.com/send-email', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        credentials: 'include',
+        mode: 'cors',
         body: JSON.stringify(formData)
       });
       
       console.log('Response status:', response.status);
       
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send message');
+      }
+      
       const data = await response.json();
       console.log('Response data:', data);
       
-      if (response.ok) {
-        alert('Message sent successfully!');
-        e.target.reset();
-      } else {
-        alert(`Failed to send message: ${data.details || 'Please try again.'}`);
-      }
+      alert('Message sent successfully!');
+      e.target.reset();
     } catch (error) {
-      console.error('Detailed error:', error);
+      console.error('Error details:', error);
       alert(`Failed to send message: ${error.message || 'Please try again.'}`);
     }
   };
