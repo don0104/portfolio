@@ -8,6 +8,8 @@ import {
   EnvelopeIcon 
 } from '@heroicons/react/24/outline';
 import { TypeAnimation } from 'react-type-animation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { scrollY } = useScroll();
@@ -81,16 +83,17 @@ function App() {
       const data = await response.json();
       console.log('Response data:', data);
       
-      alert('Message sent successfully!');
+      toast.success('Thank you for your message! I will get back to you soon.');
       e.target.reset();
     } catch (error) {
       console.error('Error details:', error);
-      alert(`Failed to send message: ${error.message || 'Please try again.'}`);
+      toast.error('Sorry, there was an error sending your message. Please try again or contact me directly at donaldlumio1@gmail.com');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      <ToastContainer position="top-center" autoClose={3000} />
       {/* Navigation */}
       <nav className="fixed w-full bg-gray-900/80 backdrop-blur-sm z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
